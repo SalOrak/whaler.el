@@ -7,7 +7,7 @@
 ;; URL: https://github.com/salorack/whaler.el
 ;; Version: 0.0.1
 ;; Package-Requires: ((emacs "24.5"))
-;; Keywords: matching
+;; Keywords: tools
 
 ;; This file is part of GNU Emacs.
 
@@ -28,9 +28,9 @@
 
 ;; This package provides `whaler' as a way to move between
 ;; directories blazingly fast while maintaining some sort of
-;; current working directory
+;; current working directory.
 
-;; It is minimalistic project manager aiming to help move between
+;; It is a minimalistic project manager aiming to help move between
 ;; directories and find files as fast as possible.
 
 ;;; Code:
@@ -68,7 +68,7 @@
   )
 
 (defcustom whaler-default-working-directory (f-full "~")
-  "Default directory to use when `whaler-current-working-dir' is nil or no projects have been found. It acts as a fallback."
+  "Default directory to use when `whaler-current-working-directory' is nil or no projects have been found. It acts as a fallback."
   :type 'string
   )
 
@@ -82,43 +82,34 @@
 
 ;; Functions
 
-(cl-defun whaler--execute-function-on-current-working-directory
-    (action)
+(cl-defun whaler--execute-function-on-current-working-directory (action)
   "Generic function to execute in the current working directory.
 The `action' parameter represent the function to execute. It should accept a string parameter, specifically it will receive the `whaler-current-working-directory' or `whaler-default-working-directory' as argument."
   (interactive)
   (cond
-   ((null action)
-      (user-error "`action' function cannot be nil")
-      )
-   ((fboundp action)
-      (user-error "`action' should have a SYMBOL defined.")
-      )
-   )
-  (cond
-   ((null whaler-current-working-dir) 
-    (funcall action whaler-default-working-dir) 
+   ((null whaler-current-working-directory) 
+    (funcall-interactively action whaler-default-working-directory) 
     )
-   (f-dir-p whaler-current-working-dir) 
-   (funcall action whaler-current-working-dir)
+   ((f-dir-p whaler-current-working-directory) 
+    (funcall-interactively action whaler-current-working-directory)
+    )
    )
   )
   
-(defun --whaler-default-find-files-function (directory)
-  "Default function used when executing `whaler-find-files-in-current-working-dir'."
+(defun whaler--default-find-files-function (directory)
+  "Default function used when executing `whaler-find-files-in-current-working-directory'."
   (counsel-find-file "" directory)
   )
 
 (cl-defun whaler-find-files-in-current-working-directory
-    (&key (action #'--whaler-default-find-files-function))
+    (&key (action 'whaler--default-find-files-function))
   "Find files in the `whaler-current-working-directory'. If there are no `whaler-project-directories' it will use the 'whaler-default-working-directory' as fallback to search in.
 
 `ACTION' is a function that accepts one argument, a string representing a directory path. By default it uses `counsel-find-file' to search for files. 
 "
   (interactive)
-  (whaler--execute-function-on-current-working-directory #'action)
+  (whaler--execute-function-on-current-working-directory action)
   )
-
 
 (cl-defun whaler--generate-subdirectories (list &key (hidden whaler-include-hidden-directories))
   "Generates all subdirectories using the provided `list' argument. It search inside eachdirectory in `list' argument and appends every subdirectory in the `whaler-project-directories'. 
@@ -136,7 +127,7 @@ The `action' parameter represent the function to execute. It should accept a str
 
 (defun whaler--add-oneoff-directories ()
   "Appends the oneoff directories directly to the projects list."
-  (mapcar (lambda (x) (add-to-list 'whaler-gen-dirs x)) whaler-oneoff-directories-alist)
+  (mapcar (lambda (x) (add-to-list 'whaler-project-directories x)) whaler-oneoff-directories-alist)
   )
 
 (defun whaler-populate-projects-directories ()
@@ -157,16 +148,17 @@ The `action' parameter represent the function to execute. It should accept a str
   (interactive)
   (ivy-read "[ Whaler ] >> " whaler-project-directories
 	    :require-match t ;; Only one candidate
-	    :action (lambda (x)
+	    :action (lambda (dir)
 		      (progn
 			(when change-cwd-auto 
-			  (setq whaler-current-working-dir (f-slash x))
+			  (setq whaler-current-working-directory (f-slash dir))
 			  )
-			(funcall action whaler-current-working-dir)
+			(funcall action dir)
 			)
 		      )
 	    )
   )
+
 
 (provide 'whaler)
 
