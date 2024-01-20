@@ -47,13 +47,14 @@ This package does not come with any mappings by default. Here is an example on h
 	("M-p w p" . whaler-whaler :change-cwd-auto nil) ;; Change between directories WITHOUT changing working dir.
 	("M-p w f" . whaler-find-files-in-current-working-directory) ;; Find files in the working directory
 	)
-	:config
+	:custom
 	;; RECOMMENDED! Add at least one of the following or whaler does nothing
 	(setq whaler-directories-alist '("~/personal" "~/work")) ;; List of parent directories to search for projects and add them.
 	(setq whaler-oneoff-directories-alist '("~/.config/emacs")) ;; List of projects to add directly.
 	;; (OPTIONAL)
 	(setq whaler-include-hidden-directories nil) ;; Whether whaler should include hidden directories
 	(setq whaler-default-working-directory "~") ;; Fallback working directory to search for files in case no project has been selected
+	:config
 	;; --- THIS IS IMPORTANT --- In order to avoid cpu usage finding for directories every time, the projects are populated once. To do regenerate projects run this.
 	(whaler-populate-projects-directories)
 )
