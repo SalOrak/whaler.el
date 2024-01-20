@@ -105,11 +105,11 @@ If you want to know more I strongly recommend reading the function descriptions.
 
 Here are the most interesting ones:
 
-- **`whaler-find-files-in-current-working-directory (action)`**: "Find files in the `whaler-current-working-directory`. If there are no `whaler-project-directories` it will use the 'whaler-default-working-directory' as fallback to search in. `ACTION` is a function that accepts one argument, a string representing a directory path. By default it uses `counsel-find-file` to search for files. "
+- **`whaler-find-files-in-current-working-directory (action)`**: "Find files in the `whaler-current-working-directory`. If there are no `whaler-project-directories` it will use the `whaler-default-working-directory` as fallback to search in. `ACTION` is a function that accepts one argument, a string representing a directory path. By default it uses `counsel-find-file` to search for files. "
 
 - **`whaler--execute-function-on-current-working-directory (action)`**: "Generic function to execute in the current working directory. The `action` parameter represent the function to execute. It should accept a string parameter, specifically it will receive the `whaler-current-working-directory` or `whaler-default-working-directory` as argument."
 
-- **`whaler-whaler ( &key (action 'dired) (change-cwd-auto t))`: "Change or move between directories blazingly fast and apply an `action` in the selected directory. By default it will open the directory with `dired`. `ACTION` is a function that accepts a parameter, string, and will be used upon the selected directory. By default is dired. `CHANGE-CWD-AUTO` is a boolean indicating whether whaler should set the selected candidate as its current working directory or not. By defaul is `t`. "
+- **`whaler-whaler ( &key (action 'dired) (change-cwd-auto t))`**: "Change or move between directories blazingly fast and apply an `action` in the selected directory. By default it will open the directory with `dired`. `ACTION` is a function that accepts a parameter, string, and will be used upon the selected directory. By default is dired. `CHANGE-CWD-AUTO` is a boolean indicating whether whaler should set the selected candidate as its current working directory or not. By defaul is `t`. "
 
 
 ## Alternatives
