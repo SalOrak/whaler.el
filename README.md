@@ -65,7 +65,7 @@ Once installed and configured its time to use it:
 
 - Pressing `M-p w w` launches the Ivy miniframe. Selecting any project will open `dired` in that directory and set it as your current working directory.
 - Pressing `M-p w p` does the same but it does NOT changes your current working directory. This is a life saver when the only thing you want to do is look for an specific file or read something from another project.
-- Pressing `M-p w f` finds files in the current working directory. By default uses `counsel-find-file` but you can change it as you wish.
+- Pressing `M-p w f` finds files in the current working directory. By default uses `counsel-fzf` but you can change it as you wish.
 
 ##  Customization
 
@@ -105,7 +105,7 @@ If you want to know more I strongly recommend reading the function descriptions.
 
 Here are the most interesting ones:
 
-- **`whaler-find-files-in-current-working-directory (action)`**: "Find files in the `whaler-current-working-directory`. If there are no `whaler-project-directories` it will use the `whaler-default-working-directory` as fallback to search in. `ACTION` is a function that accepts one argument, a string representing a directory path. By default it uses `counsel-find-file` to search for files. "
+- **`whaler-find-files-in-current-working-directory (action)`**: "Find files in the `whaler-current-working-directory`. If there are no `whaler-project-directories` it will use the `whaler-default-working-directory` as fallback to search in. `ACTION` is a function that accepts one argument, a string representing a directory path. By default it uses `counsel-fzf` to search for files. "
 
 - **`whaler--execute-function-on-current-working-directory (action)`**: "Generic function to execute in the current working directory. The `action` parameter represent the function to execute. It should accept a string parameter, specifically it will receive the `whaler-current-working-directory` or `whaler-default-working-directory` as argument."
 
