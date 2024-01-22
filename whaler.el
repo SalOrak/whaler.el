@@ -81,7 +81,7 @@
   )
 
 ;; Functions
-
+;;;###autoload
 (cl-defun whaler--execute-function-on-current-working-directory (action)
   "Generic function to execute in the current working directory.
 The `action' parameter represent the function to execute. It should accept a string parameter, specifically it will receive the `whaler-current-working-directory' or `whaler-default-working-directory' as argument."
@@ -98,14 +98,14 @@ The `action' parameter represent the function to execute. It should accept a str
   
 (defun whaler--default-find-files-function (directory)
   "Default function used when executing `whaler-find-files-in-current-working-directory'."
-  (counsel-find-file "" directory)
+  (counsel-fzf "" directory "Whaler FZF >> ")
   )
 
 (cl-defun whaler-find-files-in-current-working-directory
     (&key (action 'whaler--default-find-files-function))
   "Find files in the `whaler-current-working-directory'. If there are no `whaler-project-directories' it will use the 'whaler-default-working-directory' as fallback to search in.
 
-`ACTION' is a function that accepts one argument, a string representing a directory path. By default it uses `counsel-find-file' to search for files. 
+`ACTION' is a function that accepts one argument, a string representing a directory path. By default it uses `counsel-fzf' to search for files. 
 "
   (interactive)
   (whaler--execute-function-on-current-working-directory action)
