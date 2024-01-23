@@ -149,12 +149,10 @@ The `action' parameter represent the function to execute. It should accept a str
   (ivy-read "[ Whaler ] >> " whaler-project-directories
 	    :require-match t ;; Only one candidate
 	    :action (lambda (dir)
-		      (progn
-			(when change-cwd-auto 
-			  (setq whaler-current-working-directory (f-slash dir))
-			  )
-			(funcall action dir)
+		      (when change-cwd-auto
+			(setq whaler-current-working-directory (f-slash dir))
 			)
+		      (funcall action dir)
 		      )
 	    )
   )
