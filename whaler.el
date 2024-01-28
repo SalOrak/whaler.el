@@ -1,15 +1,13 @@
 ;;; whaler.el --- Move between directories blazingly fast -*- lexical-binding: t -*-
 
-;; Copyright (C) 2015-2023 Free Software Foundation, Inc.
+;; Copyright (C) 2015-2024 Free Software Foundation, Inc.
 
 ;; Author: Hector Alarcon <salorack@protonmail.com>
 ;; Maintainer: Hector Alarcon <salorack@protonmail.com>
 ;; URL: https://github.com/salorack/whaler.el
 ;; Version: 0.0.1
-;; Package-Requires: ((emacs "25.1"))
+;; Package-Requires: ((emacs "25.1") ( f "0.20.0") )
 ;; Keywords: tools
-
-;; This file is part of GNU Emacs.
 
 ;; This file is free software; you can redistribute it and/or modify
 ;; it under the terms of the GNU General Public License as published by
