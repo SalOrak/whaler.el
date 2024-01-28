@@ -1,7 +1,5 @@
 ;;; whaler.el --- Move between directories blazingly fast -*- lexical-binding: t -*-
 
-;; Copyright (C) 2015-2024 Free Software Foundation, Inc.
-
 ;; Author: Hector Alarcon <salorack@protonmail.com>
 ;; Maintainer: Hector Alarcon <salorack@protonmail.com>
 ;; URL: https://github.com/salorack/whaler.el
