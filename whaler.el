@@ -106,7 +106,7 @@ as argument."
   (find-file directory))
 
 (cl-defun whaler-find-files-in-current-working-directory
-    (&key (action 'whaler--default-find-files-function))
+    (&key (action #'whaler--default-find-files-function))
   "Find files in the `whaler-current-working-directory'.
 If there are no `whaler-project-directories' it will use the
 'whaler-default-working-directory' as fallback to search in.
