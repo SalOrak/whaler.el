@@ -55,22 +55,37 @@
   :type 'boolean)
 
 (defcustom whaler-directories-alist '("~/personal/" "~/work/")
-  "List of directories where projects will be retrieved and added to the projects list.  For example, if the list is ('~/personal' '~/work') it will search, with depth 1, and add all directories that have as parent directories '~/personal/' or '~/work'.  The resulting list would be something similar to ('~/personal/project-emacs' '~/personal/helloworld' '~/work/secret' '~/work/backend-server').  These are just an example."
+  "List of dirs where projects will be retrieved and added to projects list.
+For example, if the list is (\'~/personal\' \'~/work\') it will search,
+with depth 1, and add all directories that have as parent directories
+\'~/personal/\' or \'~/work\'.
+The resulting list would be something similar to
+\(\'~/personal/project-emacs\' \'~/personal/helloworld\' \'~/work/secret\'
+\'~/work/backend-server\').
+These are just an example."
   :type 'alist)
 
 (defcustom whaler-oneoff-directories-alist '("~/.config/emacs/")
-  "List contaning path to projects that will be added in the projects list directly.  If you want a single project to appear directly you can add it to this list.  Imagine you want to add '~/.config/emacs/' but don't want to add ALL the '~/.config/' directories, you can add it here."
+  "List project's paths that will be added in the projects list directly.
+If you want a single project to appear directly you can add it to this list.
+Imagine you want to add \'~/.config/emacs/\' but don't want to add ALL
+the \'~/.config/\' directories, you can add it here."
   :type 'alist)
 
 (defcustom whaler-default-working-directory (f-full "~")
-  "Default directory to use when `whaler-current-working-directory' is nil or no projects have been found.  It acts as a fallback."
+  "Default directory to use when no projects found or cwd not set.
+It acts as a fallback."
   :type 'string)
 
 (defvar whaler-current-working-directory nil
   "Current working directory selected through `whaler-whaler'.")
 
 (defvar whaler-project-directories '()
-  "List of directory paths used as candidates to search.  This list represents the available candidates when executing `whaler-whaler'.  DO NOT MODIFY IT MANUALLY, instead modify the `whaler-directories-alist' and `whaler-oneoff-directories-alist' lists and then run `whaler-populate-projects-directories' to automatically update this list.")
+  "List of directory paths used as candidates to search.
+This list represents the available candidates when executing `whaler-whaler'.
+DO NOT MODIFY IT MANUALLY, instead modify the `whaler-directories-alist'
+and `whaler-oneoff-directories-alist' lists and then
+run `whaler-populate-projects-directories' to automatically update this list.")
 
 ;; Functions
 (cl-defun whaler--execute-function-on-current-working-directory (action)
