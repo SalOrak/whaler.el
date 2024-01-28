@@ -90,7 +90,8 @@ run `whaler-populate-projects-directories' to automatically update this list.")
   "Generic function to execute in the current working directory.
 The `ACTION' parameter represent the function to execute.
 It should accept a string parameter, specifically it will receive the
-`whaler-current-working-directory' or `whaler-default-working-directory' as argument."
+`whaler-current-working-directory' or `whaler-default-working-directory'
+as argument."
   (interactive)
   (cond
    ((null whaler-current-working-directory)
@@ -102,7 +103,7 @@ It should accept a string parameter, specifically it will receive the
   "Function used when call `whaler-find-files-in-current-working-directory'.
 `DIRECTORY' is always either `whaler-current-working-directory' or
 `whaler-default-working-directory'."
-  (counsel-fzf "" directory "Whaler FZF >> "))
+  (find-file directory))
 
 (cl-defun whaler-find-files-in-current-working-directory
     (&key (action 'whaler--default-find-files-function))
