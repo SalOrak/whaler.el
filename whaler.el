@@ -109,7 +109,7 @@ as argument."
     (&key (action #'whaler--default-find-files-function))
   "Find files in the `whaler-current-working-directory'.
 If there are no `whaler-project-directories' it will use the
-'whaler-default-working-directory' as fallback to search in.
+`whaler-default-working-directory' as fallback to search in.
 `ACTION' is a function receiving an string representing a directory path.
  By default it uses `counsel-fzf' to search for files."
   (interactive)
