@@ -121,11 +121,9 @@ It search inside eachdirectory in `list' argument and appends every subdirectory
  in the `whaler-project-directories'.
 `LIST' corresponds to the list of directories to search in.
 `HIDDEN' is used to indicate whether to append hidden directories or not."
-  (let (value)
     (dolist (value list)
-      (let (el)
 	(dolist (el (f-directories (f-long value) (lambda (x) (or (not (f-hidden-p x 'last)) hidden)) nil))
-	  (add-to-list 'whaler-project-directories el))))))
+	  (add-to-list 'whaler-project-directories el))))
 
 (defun whaler--add-oneoff-directories ()
   "Append the oneoff directories directly to the projects list."
