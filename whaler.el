@@ -132,6 +132,7 @@ It search inside eachdirectory in `list' argument and appends every subdirectory
 (defun whaler-populate-projects-directories ()
   "Populate the projects list `whaler-project-directories' and delete duplicates."
   (interactive)
+  (setq whaler-project-directories '())
   (whaler--generate-subdirectories whaler-directories-alist)
   (whaler--add-oneoff-directories)
   (delete-dups whaler-project-directories))
