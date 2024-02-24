@@ -35,8 +35,6 @@
   (require 'cl-lib))
 
 (require 'f)
-(require 'ivy)
-
 
 ;;* Customization
 (defgroup whaler nil
@@ -86,7 +84,7 @@ and `whaler-oneoff-directories-alist' lists and then
 run `whaler-populate-projects-directories' to automatically update this list.")
 
 ;; Functions
-(cl-defun whaler--execute-function-on-current-working-directory (action)
+(cl-defun whaler-execute-function-on-current-working-directory (action)
   "Generic function to execute in the current working directory.
 The `ACTION' parameter represent the function to execute.
 It should accept a string parameter, specifically it will receive the
@@ -113,7 +111,7 @@ If there are no `whaler-project-directories' it will use the
 `ACTION' is a function receiving an string representing a directory path.
  By default it uses `counsel-fzf' to search for files."
   (interactive)
-  (whaler--execute-function-on-current-working-directory action))
+  (whaler-execute-function-on-current-working-directory action))
 
 (cl-defun whaler--generate-subdirectories (list &key (hidden whaler-include-hidden-directories))
   "Generate all subdirectories using the provided `list' argument.
@@ -149,12 +147,10 @@ the selected directory.  By default is `dired'.
 set the selected candidate as its current working directory or not.  Default t."
 
   (interactive)
-  (ivy-read "[ Whaler ] >> " whaler-project-directories
-	    :require-match t ;; Only one candidate
-	    :action (lambda (dir)
-		      (when change-cwd-auto
-			(setq whaler-current-working-directory (f-slash dir)))
-		      (funcall action dir))))
+  (let ((chosen-directory ""))
+    (setq chosen-directory (completing-read "[ Whaler ] >> " whaler-project-directories nil t))
+    (when change-cwd-auto (setq whaler-current-working-directory (f-slash chosen-directory)))
+    (funcall action chosen-directory)))
 
 
 (provide 'whaler)
