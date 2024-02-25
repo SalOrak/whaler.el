@@ -68,7 +68,7 @@ Imagine you want to add \'~/.config/emacs/\' but don't want to add ALL
 the \'~/.config/\' directories, you can add it here."
   :type 'alist)
 
-(defcustom whaler-default-working-directory (f-full "~")
+(defcustom whaler-default-working-directory (f-full "~/")
   "Default directory to use when no projects found or cwd not set.
 It acts as a fallback."
   :type 'string)
@@ -93,10 +93,11 @@ as argument."
   (interactive)
   (cond
    ((null whaler-current-working-directory)
-    (funcall-interactively action whaler-default-working-directory))
+    (let ((default-directory whaler-default-working-directory))
+    (funcall action)))
    ((f-dir-p whaler-current-working-directory)
     (let ((default-directory whaler-current-working-directory))
-      (funcall-interactively action whaler-current-working-directory)))))
+      (funcall action)))))
   
 (defun whaler--default-find-files-function (directory)
   "Function used when call `whaler-find-files-in-current-working-directory'.
