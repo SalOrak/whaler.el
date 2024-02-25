@@ -74,11 +74,11 @@ It acts as a fallback."
   :type 'string)
 
 (defvar whaler-current-working-directory nil
-  "Current working directory selected through `whaler-whaler'.")
+  "Current working directory selected through `whaler'.")
 
 (defvar whaler-project-directories '()
   "List of directory paths used as candidates to search.
-This list represents the available candidates when executing `whaler-whaler'.
+This list represents the available candidates when executing `whaler'.
 DO NOT MODIFY IT MANUALLY, instead modify the `whaler-directories-alist'
 and `whaler-oneoff-directories-alist' lists and then
 run `whaler-populate-projects-directories' to automatically update this list.")
@@ -135,7 +135,7 @@ It search inside eachdirectory in `list' argument and appends every subdirectory
   (whaler--add-oneoff-directories)
   (delete-dups whaler-project-directories))
 
-(cl-defun whaler-whaler ( &key (action 'dired) (change-cwd-auto t))
+(cl-defun whaler ( &key (action 'dired) (change-cwd-auto t))
   "Change or move between directories blazingly fast.
 Apply an `action' in the selected directory.
 By default it will open the directory with `dired'.
