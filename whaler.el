@@ -91,7 +91,7 @@ The `ACTION' parameter represent the function to execute.
 
 The `ACTION-ARG' parameter determines whether the current working directory
 should be passed as an argument to the `ACTION' function.
-By default is `t'.
+By default is `t`.
 
 It should accept a string parameter, specifically it will receive the
 `whaler-current-working-directory' or `whaler-default-working-directory'
@@ -141,8 +141,8 @@ By default it will open the directory with `dired'.
 `ACTION' is a function that accepts a parameter, string, and will be used upon
 the selected directory.  By default is `dired'.
 
-`ACTION-ARG' determines whether the `ACTION' function should receive the selected directory or not.
-By default is `t'.
+`ACTION-ARG' determines whether the `ACTION' function should receive the
+selected directory or not.  By default is `t`.
 
 `CHANGE-CWD-AUTO' is a boolean indicating whether whaler should
 set the selected candidate as its current working directory or not.  Default t."
