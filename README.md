@@ -8,6 +8,7 @@
 
 **Whaler** offers a fast experience to move between directories and act upon them.
 
+![whaler-example](doc/whalerel.gif)
 
 ## Why use Whaler instead of X?
 
