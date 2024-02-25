@@ -84,13 +84,14 @@ and `whaler-oneoff-directories-alist' lists and then
 run `whaler-populate-projects-directories' to automatically update this list.")
 
 ;; Functions
-(cl-defun whaler-execute-function-on-current-working-directory (action &optional (action-arg nil))
+(cl-defun whaler-execute-function-on-current-working-directory (action &optional (action-arg t))
   "Generic function to execute in the current working directory.
 
 The `ACTION' parameter represent the function to execute.
 
 The `ACTION-ARG' parameter determines whether the current working directory
-should be passed as an argument to the function. By default is `nil'.
+should be passed as an argument to the `ACTION' function.
+By default is `t'.
 
 It should accept a string parameter, specifically it will receive the
 `whaler-current-working-directory' or `whaler-default-working-directory'
@@ -107,22 +108,6 @@ as argument."
       (if (null action-arg)
 	  (funcall action)
 	(funcall action default-directory))))))
-  
-(defun whaler--default-find-files-function (directory)
-  "Function used when call `whaler-find-files-in-current-working-directory'.
-`DIRECTORY' is always either `whaler-current-working-directory' or
-`whaler-default-working-directory'."
-  (find-file directory))
-
-(cl-defun whaler-find-files-in-current-working-directory
-    (&key (action #'whaler--default-find-files-function))
-  "Find files in the `whaler-current-working-directory'.
-If there are no `whaler-project-directories' it will use the
-`whaler-default-working-directory' as fallback to search in.
-`ACTION' is a function receiving an string representing a directory path.
- By default it uses `counsel-fzf' to search for files."
-  (interactive)
-  (whaler-execute-function-on-current-working-directory action))
 
 (cl-defun whaler--generate-subdirectories (list &key (hidden whaler-include-hidden-directories))
   "Generate all subdirectories using the provided `list' argument.
@@ -156,7 +141,7 @@ By default it will open the directory with `dired'.
 `ACTION' is a function that accepts a parameter, string, and will be used upon
 the selected directory.  By default is `dired'.
 
-`ACTION-ARG' whether the `ACTION' should receive the selected directory or not.
+`ACTION-ARG' determines whether the `ACTION' function should receive the selected directory or not.
 By default is `t'.
 
 `CHANGE-CWD-AUTO' is a boolean indicating whether whaler should
