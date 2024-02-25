@@ -130,8 +130,7 @@ It search inside eachdirectory in `list' argument and appends every subdirectory
   (whaler--generate-subdirectories whaler-directories-alist)
   (whaler--add-oneoff-directories)
   (delete-dups whaler-project-directories)
-  (message "[Whaler] Projects have been correctly populated.")
-  )
+  (message "[Whaler] Projects have been correctly populated."))
 
 (cl-defun whaler ( &key (action 'dired) (action-arg t)(change-cwd-auto t))
   "Change or move between directories blazingly fast.
