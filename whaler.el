@@ -84,9 +84,14 @@ and `whaler-oneoff-directories-alist' lists and then
 run `whaler-populate-projects-directories' to automatically update this list.")
 
 ;; Functions
-(cl-defun whaler-execute-function-on-current-working-directory (action)
+(cl-defun whaler-execute-function-on-current-working-directory (action &optional (action-arg nil))
   "Generic function to execute in the current working directory.
+
 The `ACTION' parameter represent the function to execute.
+
+The `ACTION-ARG' parameter determines whether the current working directory
+should be passed as an argument to the function. By default is `nil'.
+
 It should accept a string parameter, specifically it will receive the
 `whaler-current-working-directory' or `whaler-default-working-directory'
 as argument."
@@ -94,10 +99,14 @@ as argument."
   (cond
    ((null whaler-current-working-directory)
     (let ((default-directory whaler-default-working-directory))
-    (funcall action)))
+      (if (null action-arg)
+	  (funcall action)
+	(funcall action default-directory))))
    ((f-dir-p whaler-current-working-directory)
     (let ((default-directory whaler-current-working-directory))
-      (funcall action)))))
+      (if (null action-arg)
+	  (funcall action)
+	(funcall action default-directory))))))
   
 (defun whaler--default-find-files-function (directory)
   "Function used when call `whaler-find-files-in-current-working-directory'.
@@ -135,15 +144,20 @@ It search inside eachdirectory in `list' argument and appends every subdirectory
   (setq whaler-project-directories '())
   (whaler--generate-subdirectories whaler-directories-alist)
   (whaler--add-oneoff-directories)
-  (delete-dups whaler-project-directories))
+  (delete-dups whaler-project-directories)
+  (message "[Whaler] Projects have been correctly populated.")
+  )
 
-(cl-defun whaler ( &key (action 'dired) (change-cwd-auto t))
+(cl-defun whaler ( &key (action 'dired) (action-arg t)(change-cwd-auto t))
   "Change or move between directories blazingly fast.
 Apply an `action' in the selected directory.
 By default it will open the directory with `dired'.
 
 `ACTION' is a function that accepts a parameter, string, and will be used upon
 the selected directory.  By default is `dired'.
+
+`ACTION-ARG' whether the `ACTION' should receive the selected directory or not.
+By default is `t'.
 
 `CHANGE-CWD-AUTO' is a boolean indicating whether whaler should
 set the selected candidate as its current working directory or not.  Default t."
@@ -152,7 +166,10 @@ set the selected candidate as its current working directory or not.  Default t."
   (let ((chosen-directory ""))
     (setq chosen-directory (completing-read "[ Whaler ] >> " whaler-project-directories nil t))
     (when change-cwd-auto (setq whaler-current-working-directory (f-slash chosen-directory)))
-    (funcall action chosen-directory)))
+  (if (null action-arg)
+      (funcall action)
+    (funcall action chosen-directory))))
+
 
 
 (provide 'whaler)
