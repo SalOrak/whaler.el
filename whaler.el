@@ -95,7 +95,8 @@ as argument."
    ((null whaler-current-working-directory)
     (funcall-interactively action whaler-default-working-directory))
    ((f-dir-p whaler-current-working-directory)
-    (funcall-interactively action whaler-current-working-directory))))
+    (let ((default-directory whaler-current-working-directory))
+      (funcall-interactively action whaler-current-working-directory)))))
   
 (defun whaler--default-find-files-function (directory)
   "Function used when call `whaler-find-files-in-current-working-directory'.
