@@ -4,9 +4,9 @@
 
 ## What is Whaler.el?
 
-**Whaler** is `completing-read` function extension to move ~blazingly~ fast between directories as well as have a minimalistic sense of working directory whilst providing an easy to use API to work with directories.
+**Whaler** is a `completing-read` function extension to move ~blazingly~ fast between directories as well as have a minimalistic sense of working directory whilst providing an easy to use API to work with directories.
 
-**Whaler** offers a fast experience to move between directories and act upon them.
+**Whaler** offers a tailored experience to managing your projects. It is, in fact, a minimalistic and highly customizable project manager. 
 
 ![whaler-example](doc/whalerel.gif)
 
@@ -23,7 +23,7 @@ So what does this package do exactly?
 
 ## Features
 
-As I already mentioned, `Whaler.el` is a package to move between directories while maintaining a sense of working directory. This means the following:
+As I already mentioned, `Whaler.el` is a package to move between directories while maintaining a sense of working directory, i.e a project manager. This means the following:
 
 1. Ability to find directories based on parent paths. For example, keeping all programming directories under `~/programming`, personal projects under `~/personal` and work related projects under `~/work`. I want all of the directories whose parent directory I added.
 2. Ability to switch from directories as fast as possible and with a completion system.
@@ -41,13 +41,11 @@ This package does not come with any mappings by default. Here is an example on h
 
 ```elisp
 (use-package whaler
-	:after '(ivy) ;; Optional
 	:ensure t
 	:bind ( 
 	;;; Completly up to you keybindings.
 	("M-p w w" . whaler) ;; Change between directories changing working dir.
 	("M-p w p" . whaler :change-cwd-auto nil) ;; Change between directories WITHOUT changing working dir.
-	("M-p w f" . whaler-find-files-in-current-working-directory) ;; Find files in the working directory
 	)
 	:custom
 	;; RECOMMENDED! Add at least one of the following or whaler won't do nothing
@@ -67,7 +65,6 @@ Once installed and configured its time to use it:
 
 - Pressing `M-p w w` launches the completion miniframe. Selecting any project will open `dired` in that directory and set it as your current working directory.
 - Pressing `M-p w p` does the same but it does NOT changes your current working directory. This is a life saver when the only thing you want to do is look for an specific file or read something from another project.
-- Pressing `M-p w f` finds files in the current working directory. By default uses `counsel-fzf` but you can change it as you wish.
 
 ##  Customization
 
@@ -101,11 +98,7 @@ Now you want to open a `shell` in the selected directory and in the current work
 
 From here you can do whatever you want. Compiling, magit, dired, finding files, executing complex elisp functions, etc. Endless possibilities :)
 
-And yes, the function `whaler-find-files-in-current-working-directory` internally calls `whaler--execute-function-on-current-working-directory`.
-
-If you want to know more I strongly recommend reading the function descriptions.
-
-Here are the most interesting ones:
+Here are the most interesting functions to get started with Whaler:
 
 - **`whaler-execute-function-on-current-working-directory (action &optional ())`**: "Generic function to execute any function in the current working directory. The `ACTION` parameter represent the function to execute. The `ACTION-ARG` parameter determines whether the current working directory should be passed as an argument to the `ACTION` function. By default is `t`. It should accept a string parameter, specifically it will receive the `whaler-current-working-directory` or `whaler-default-working-directory` as argument."
 
