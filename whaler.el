@@ -75,7 +75,7 @@ the \'~/.config/\' directories, you can add it here."
   :type 'alist)
 
 (defcustom whaler-default-working-directory (f-full "~/")
-  "Default directory to use when no projects found or cwd not set.
+  "Default directory to use when no projects found or the cwd is not set.
 It acts as a fallback."
   :type 'string)
 
@@ -156,9 +156,10 @@ set the selected candidate as its current working directory or not.  Default `t'
   (let ((chosen-directory ""))
     (setq chosen-directory (completing-read "[ Whaler ] >> " whaler-project-directories nil t))
     (when change-cwd-auto (setq whaler-current-working-directory (f-slash chosen-directory)))
-  (if (null action-arg)
-      (funcall action)
-    (funcall action chosen-directory))))
+    (let ((default-directory chosen-directory))
+      (if (null action-arg)
+	  (funcall action)
+	(funcall action chosen-directory)))))
 
 
 
