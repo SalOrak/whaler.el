@@ -23,7 +23,7 @@
 ;;; Commentary:
 
 ;; This package provides `Whaler', a minimalistic and highly customizable
-;; project manager focused on tailored experiences. 
+;; project manager focused on tailored experiences.
 
 ;; It is a minimalistic project manager aiming to provide an easy API to
 ;; work with repositories / directories / projects.
@@ -112,7 +112,7 @@ The ACTION parameter represent the function to execute.
 
 The ACTION-ARG parameter determines whether the current working directory
 should be passed as an argument to the ACTION function.
-By default is `t'.
+By default is t.
 
 It accepts a string parameter, specifically the current whaler directory."
   (interactive)
@@ -153,10 +153,10 @@ ACTION is a function that accepts a parameter, string, and will be used upon
 the selected directory.  By default is `dired'.
 
 ACTION-ARG determines whether the ACTION function should receive the
-selected directory or not.  By default is `t'.
+selected directory or not.  By default is t.
 
 CHANGE-CWD-AUTO is a boolean indicating whether whaler should
-set the selected candidate as its current working directory or not.  Default `t'."
+set the selected candidate as its current working directory or not. Default t"
 
   (interactive)
   (let ((chosen-directory ""))

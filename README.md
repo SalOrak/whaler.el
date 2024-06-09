@@ -53,7 +53,7 @@ This package does not come with any mappings by default. Here is an example on h
 	(setq whaler-oneoff-directories-alist '("~/.config/emacs")) ;; List of projects to add directly.
 	;; (OPTIONAL)
 	(setq whaler-include-hidden-directories nil) ;; Whether whaler should include hidden directories
-	(setq whaler-default-working-directory "~") ;; Fallback working directory to search for files in case no project has been selected
+	(setq whaler-default-working-directory "~") ;; Fallback working directory to search for files in case no project has been selected.
 	:config
 	;; --- THIS IS IMPORTANT --- In order to avoid cpu usage finding for directories every time, the projects are populated once. To regenerate projects run this.
 	(whaler-populate-projects-directories)
