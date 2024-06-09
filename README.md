@@ -144,21 +144,21 @@ Here are the **most** used functions for me:
 The following snippet is the `elisp` code to make all of these functions possible using `whaler.el`.
 ```elisp
 ;; Custom functions to extend whaler
-(cl-defun salorak/whaler-prompt (&optional (post " >> ") (dir default-directory))
-  "Custom Whaler prompt"
+(cl-defun custom/whaler-prompt (&optional (post " >> ") (dir default-directory))
+  "Whaler prompt. A custom prompt for each function."
   (concat "[" (f-filename dir) "]" post))
 
-(defun salorak/whaler-find-files ()
+(defun custom/whaler-find-files ()
   "Custom find files function for `whaler.el' in the cwd."
   (interactive)
   (whaler-execute-function-on-current-working-directory
-   (lambda ()(interactive)
+   (lambda (dir)(interactive)
      (counsel-fzf
       ""
-      default-directory
-      (salorak/whaler-prompt " -- Find files >> ")))))
+      dir
+      (custom/whaler-prompt " -- Find files >> " dir)))))
 
-(defun salorak/whaler-rg()
+(defun custom/whaler-rg()
   "Execute `counsel-rg' function for `whaler.el' in the cwd."
   (interactive)
   (whaler-execute-function-on-current-working-directory
@@ -167,53 +167,50 @@ The following snippet is the `elisp` code to make all of these functions possibl
       ""
       dir 
       nil
-      (salorak/whaler-prompt " -- Search String >> ")
-      ))
-	  t))
+      (custom/whaler-prompt " -- Search String >> "))) 
+      t))
 
-(defun salorak/whaler-compile()
+(defun custom/whaler-compile()
   "Execute `compile' function for `whaler.el' in the cwd."
   (interactive)
   (whaler-execute-function-on-current-working-directory
-   (lambda ()
+   (lambda (dir)
      (interactive)
      (let (
 	   (compilation-command
-	    (read-string (salorak/whaler-prompt " -- Compile commmand >> ")
+	    (read-string (custom/whaler-prompt " -- Compile commmand >> " dir)
 			 )
 	    ))
        (compile compilation-command)))))
 
-(defun salorak/whaler-dired-root ()
+(defun custom/whaler-dired-root ()
   "Open root project in dired for `whaler.el'"
   (interactive)
-  (whaler-execute-function-on-current-working-directory 'dired t))
+  (whaler-execute-function-on-current-working-directory 'dired ))
 
-(defun salorak/whaler-counsel-find-files (dir)
-  "Wrapper for finding files in another directory in whaler.el"
+(defun custom/whaler-counsel-find-files (dir)
+  "Wrapper for finding files in another directory"
   (interactive)
   (counsel-fzf
    ""
    dir
-   (salorak/whaler-prompt " -- Find files >> " dir)))
+   (custom/whaler-prompt " -- Find files >> " dir)))
 
-(defun salorak/whaler-counsel-search-strings (dir)
-  "Wrapper for searching strings in another directory in whaler.el."
+(defun custom/whaler-counsel-search-strings (dir)
+  "Wrapper for searching strings in another directory"
   (interactive)
   (counsel-rg
    ""
    dir
    nil
-   (salorak/whaler-prompt " -- Search String >> " dir)))
+   (custom/whaler-prompt " -- Search String >> " dir)))
 
-(defun salorak/whaler-compile-other ()
-  "Wrapper for executing `compile' in another directory in whaler.el."
+(defun custom/whaler-compile-other ()
+  "Wrapper for executing `compile' in another directory."
   (interactive)
   (let (
 	(compilation-command
-	 (read-string (salorak/whaler-prompt " -- Compile commmand >> ")
-		      )
-	 ))
+	 (read-string (custom/whaler-prompt " -- Compile commmand >> "))))
     (compile compilation-command)))
 ```
 
