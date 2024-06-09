@@ -1,4 +1,4 @@
-;;; whaler.el --- Move between directories blazingly fast -*- lexical-binding: t -*-
+;;; whaler.el --- Minimalistic and customizable project manager-*- lexical-binding: t -*-
 
 ;; Author: Hector "Salorak" Alarcon <salorack@protonmail.com>
 ;; Maintainer: Hector "Salorak" Alarcon <salorack@protonmail.com>
