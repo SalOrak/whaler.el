@@ -1,8 +1,8 @@
 ;;; whaler.el --- Move between directories blazingly fast -*- lexical-binding: t -*-
 
-;; Author: Hector Alarcon <salorack@protonmail.com>
-;; Maintainer: Hector Alarcon <salorack@protonmail.com>
-;; URL: https://github.com/salorack/whaler.el
+;; Author: Hector "Salorak" Alarcon <salorack@protonmail.com>
+;; Maintainer: Hector "Salorak" Alarcon <salorack@protonmail.com>
+;; URL: https://github.com/salorak/whaler.el
 ;; Version: 0.0.1
 ;; Package-Requires: ((emacs "25.1") ( f "0.20.0") (ivy "0.13.0") )
 ;; Keywords: tools
@@ -74,7 +74,7 @@ Imagine you want to add \'~/.config/emacs/\' but don't want to add ALL
 the \'~/.config/\' directories, you can add it here."
   :type 'alist)
 
-(defcustom whaler-default-working-directory (f-full "~/")
+(defcustom whaler-default-working-directory (f-full (getenv "HOME"))
   "Default directory to use when no projects found or the cwd is not set.
 It acts as a fallback."
   :type 'string)
@@ -90,6 +90,21 @@ and `whaler-oneoff-directories-alist' lists and then
 run `whaler-populate-projects-directories' to automatically update this list.")
 
 ;; Functions
+(defun whaler-current-working-directory ()
+  "Returns the current working directory if set, otherwise the default directory.
+Fallbacks to the $HOME directory if neither is a valid path."
+  (cond
+   ((and (stringp whaler-current-working-directory)
+         (f-dir-p whaler-current-working-directory)
+         (not (string-empty-p whaler-current-working-directory)))
+      whaler-current-working-directory)
+   ((and (stringp whaler-default-working-directory)
+         (f-dir-p whaler-default-working-directory)
+         (not (string-empty-p whaler-default-working-directory)))
+      whaler-default-working-directory)
+   ((f-dir-p (getenv "HOME"))
+    (getenv "HOME"))))
+
 (cl-defun whaler-execute-function-on-current-working-directory (action &optional (action-arg t))
   "Generic function to execute in the current working directory.
 
@@ -99,21 +114,12 @@ The ACTION-ARG parameter determines whether the current working directory
 should be passed as an argument to the ACTION function.
 By default is `t'.
 
-It should accept a string parameter, specifically it will receive the
-`whaler-current-working-directory' or `whaler-default-working-directory'
-as argument."
+It accepts a string parameter, specifically the current whaler directory."
   (interactive)
-  (cond
-   ((null whaler-current-working-directory)
-    (let ((default-directory whaler-default-working-directory))
+  (let ((default-directory (whaler-current-working-directory)))
       (if (null action-arg)
 	  (funcall action)
 	(funcall action default-directory))))
-   ((f-dir-p whaler-current-working-directory)
-    (let ((default-directory whaler-current-working-directory))
-      (if (null action-arg)
-	  (funcall action)
-	(funcall action default-directory))))))
 
 (cl-defun whaler--generate-subdirectories (list &key (hidden whaler-include-hidden-directories))
   "Generate all subdirectories using the provided LIST argument.
