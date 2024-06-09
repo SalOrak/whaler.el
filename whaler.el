@@ -28,7 +28,7 @@
 ;; It is a minimalistic project manager aiming to provide an easy API to
 ;; work with repositories / directories / projects.
 
-;; `Whaler' provides functions to easily create a pool of projects as 
+;; `Whaler' provides functions to easily create a pool of projects as
 ;; well as interact with these projects. For example, with `Whaler' you
 ;; can call `compile' in a project chosen from the minibuffer without
 ;; changing the current project. But not only you can call `compile', but
