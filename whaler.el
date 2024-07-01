@@ -4,7 +4,7 @@
 ;; Maintainer: Hector "Salorak" Alarcon <salorack@protonmail.com>
 ;; URL: https://github.com/salorak/whaler.el
 ;; Version: 0.0.1
-;; Package-Requires: ((emacs "25.1") ( f "0.20.0") (ivy "0.13.0") )
+;; Package-Requires: ((emacs "25.1") ( f "0.20.0") )
 ;; Keywords: tools
 
 ;; This file is free software; you can redistribute it and/or modify
