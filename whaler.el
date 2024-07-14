@@ -139,14 +139,14 @@ It search inside each directory in LIST argument and appends every subdirectory
 LIST corresponds to the list of directories to search in.
 HIDDEN is used to indicate whether to append hidden directories or not."
     (dolist (value list)
-      (unless (null (whaler--directory-exists value))
+      (when (whaler--directory-exists value)
         (dolist (el (f-directories (f-long value) (lambda (x) (or (not (f-hidden-p x 'last)) hidden)) nil))
           (add-to-list 'whaler--project-directories el)))))
 
 (defun whaler--add-oneoff-directories ()
   "Append the oneoff directories directly to the projects list."
   (mapcar (lambda (x)
-            (unless (null (whaler--directory-exists x))
+            (when (whaler--directory-exists x)
               (add-to-list 'whaler--project-directories x)))
           whaler-oneoff-directories-alist))
 
