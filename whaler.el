@@ -83,7 +83,7 @@ It acts as a fallback."
 (defvar whaler-current-working-directory nil
   "Current working directory selected through `whaler'.")
 
-(defvar whaler-project-directories '()
+(defvar whaler--project-directories '()
   "List of directory paths used as candidates to search.
 This list represents the available candidates when executing `whaler'.
 DO NOT MODIFY IT MANUALLY, instead modify the `whaler-directories-alist'
@@ -122,27 +122,41 @@ It accepts a string parameter, specifically the current whaler directory."
 	  (funcall action)
 	(funcall action default-directory))))
 
+
+(defun whaler--directory-exists (dir)
+  "Checks whether the directory path exists or not.
+If DIR does not exist, prints it as an error message but doesn't raise an error."
+  (if (not (f-dir-p dir))
+      (progn
+        (message (concat "[Whaler] Error: Directory " dir " not found."))
+        nil)
+    dir))
+
 (cl-defun whaler--generate-subdirectories (list &key (hidden whaler-include-hidden-directories))
   "Generate all subdirectories using the provided LIST argument.
 It search inside each directory in LIST argument and appends every subdirectory
- in the `whaler-project-directories'.
+ in the `whaler--project-directories'.
 LIST corresponds to the list of directories to search in.
 HIDDEN is used to indicate whether to append hidden directories or not."
     (dolist (value list)
-	(dolist (el (f-directories (f-long value) (lambda (x) (or (not (f-hidden-p x 'last)) hidden)) nil))
-	  (add-to-list 'whaler-project-directories el))))
+      (when (whaler--directory-exists value)
+        (dolist (el (f-directories (f-long value) (lambda (x) (or (not (f-hidden-p x 'last)) hidden)) nil))
+          (add-to-list 'whaler--project-directories el)))))
 
 (defun whaler--add-oneoff-directories ()
   "Append the oneoff directories directly to the projects list."
-  (mapcar (lambda (x) (add-to-list 'whaler-project-directories x)) whaler-oneoff-directories-alist))
+  (mapcar (lambda (x)
+            (when (whaler--directory-exists x)
+              (add-to-list 'whaler--project-directories x)))
+          whaler-oneoff-directories-alist))
 
 (defun whaler-populate-projects-directories ()
-  "Populate the projects list `whaler-project-directories' and delete duplicates."
+  "Populate the projects list `whaler--project-directories' and delete duplicates."
   (interactive)
-  (setq whaler-project-directories '())
+  (setq whaler--project-directories '())
   (whaler--generate-subdirectories whaler-directories-alist)
   (whaler--add-oneoff-directories)
-  (delete-dups whaler-project-directories)
+  (delete-dups whaler--project-directories)
   (message "[Whaler] Projects have been repopulated."))
 
 (cl-defun whaler ( &key (action 'dired) (action-arg t)(change-cwd-auto t))
@@ -161,7 +175,7 @@ set the selected candidate as its current working directory or not. Default t"
 
   (interactive)
   (let ((chosen-directory ""))
-    (setq chosen-directory (completing-read "[ Whaler ] >> " whaler-project-directories nil t))
+    (setq chosen-directory (completing-read "[ Whaler ] >> " whaler--project-directories nil t))
     (when change-cwd-auto (setq whaler-current-working-directory (f-slash chosen-directory)))
     (let ((default-directory chosen-directory))
       (if (null action-arg)
