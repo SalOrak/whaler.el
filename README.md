@@ -3,10 +3,9 @@
 ![Whaler Logo Image](doc/whaler-logo.png)
 
 ## What is Whaler.el?
+**Whaler** offers a tailored experience to managing your projects. It is a minimalistic and highly customizable project manager. 
 
-**Whaler** is a `completing-read` function extension to move ~blazingly~ fast between directories as well as have a minimalistic sense of working directory whilst providing an easy to use API to work with directories.
-
-**Whaler** offers a tailored experience to managing your projects. It is, in fact, a minimalistic and highly customizable project manager. 
+**Whaler** acts as a `completing-read` function extension to move ~blazingly~ fast between directories as well as have a minimalistic sense of working directory whilst providing an easy to use API to work with directories.
 
 ![whaler-example](doc/whalerel.gif)
 
@@ -16,8 +15,6 @@ Whaler is not better than other solutions, it is just another solution. The one 
 
 I've ported and added some things from my original [`Whaler.nvim`](https://github.com/salorak/whaler.nvim) plugin from NeoVim here to Emacs. Why? For the same reason I developed it in the first place:
 > **I wanted a simple and minimalistic way to move between directories and files.**
-
-**Whaler.el** is works specially well with the great [Ivy](https://github.com/abo-abo/swiper) extension that adds a thin layer to be able to interact with directories and projects.
 
 So what does this package do exactly? 
 
@@ -52,7 +49,7 @@ This package does not come with any mappings by default. Here is an example on h
 	(setq whaler-directories-alist '("~/personal" "~/work")) ;; List of parent directories to search for projects and add them.
 	(setq whaler-oneoff-directories-alist '("~/.config/emacs")) ;; List of projects to add directly.
 	;; (OPTIONAL)
-	(setq whaler-include-hidden-directories nil) ;; Whether whaler should include hidden directories
+	(setq whaler-include-hidden-directories nil) ;; Whether whaler should include hidden directories.
 	(setq whaler-default-working-directory "~") ;; Fallback working directory to search for files in case no project has been selected.
 	:config
 	;; --- THIS IS IMPORTANT --- In order to avoid cpu usage finding for directories every time, the projects are populated once. To regenerate projects run this.
@@ -127,8 +124,6 @@ Let's say you are working on a new project called `react-test`. First you move t
 But, wait, because now you can move back to the root directory of the `react-test` by executing `whaler-execute-function-on-current-working-directory 'dired`. Awesome.
 
 But now, you want to search a string in another repository using `counsel-rg`. You can create or directly call to `whaler-execute-function-on-current-working-directory :action 'counsel-rg`. That's it. 
-
-
 
 
 ##  Whaler as a project manager
