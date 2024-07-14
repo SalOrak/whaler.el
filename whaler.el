@@ -67,11 +67,12 @@ The resulting list would be something similar to
 These are just an example."
   :type 'alist)
 
-(defcustom whaler-oneoff-directories-alist '("~/.config/emacs/")
+(defcustom whaler-oneoff-directories-alist `(,user-emacs-directory)
   "List project's paths that will be added in the projects list directly.
 If you want a single project to appear directly you can add it to this list.
-Imagine you want to add \'~/.config/emacs/\' but don't want to add ALL
-the \'~/.config/\' directories, you can add it here."
+Imagine you want to add the `user-emacs-directory' but don't want to add ALL
+the \'~/.config/\' directories, you can add it here.
+By default is the `user-emacs-directory'."
   :type 'alist)
 
 (defcustom whaler-default-working-directory (f-full (getenv "HOME"))
@@ -142,7 +143,7 @@ HIDDEN is used to indicate whether to append hidden directories or not."
   (whaler--generate-subdirectories whaler-directories-alist)
   (whaler--add-oneoff-directories)
   (delete-dups whaler-project-directories)
-  (message "[Whaler] Projects have been correctly populated."))
+  (message "[Whaler] Projects have been repopulated."))
 
 (cl-defun whaler ( &key (action 'dired) (action-arg t)(change-cwd-auto t))
   "Change or move between directories blazingly fast.
