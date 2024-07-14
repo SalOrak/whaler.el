@@ -122,6 +122,16 @@ It accepts a string parameter, specifically the current whaler directory."
 	  (funcall action)
 	(funcall action default-directory))))
 
+
+(defun whaler--directory-exists (dir)
+  "Checks whether the directory path exists or not.
+If DIR does not exist, prints it as an error message but doesn't raise an error."
+  (if (not (f-dir-p dir))
+      (progn
+        (message (concat "[Whaler] Error: Directory " dir " not found."))
+        nil)
+    dir))
+
 (cl-defun whaler--generate-subdirectories (list &key (hidden whaler-include-hidden-directories))
   "Generate all subdirectories using the provided LIST argument.
 It search inside each directory in LIST argument and appends every subdirectory
@@ -129,12 +139,16 @@ It search inside each directory in LIST argument and appends every subdirectory
 LIST corresponds to the list of directories to search in.
 HIDDEN is used to indicate whether to append hidden directories or not."
     (dolist (value list)
-	(dolist (el (f-directories (f-long value) (lambda (x) (or (not (f-hidden-p x 'last)) hidden)) nil))
-	  (add-to-list 'whaler--project-directories el))))
+      (unless (null (whaler--directory-exists value))
+        (dolist (el (f-directories (f-long value) (lambda (x) (or (not (f-hidden-p x 'last)) hidden)) nil))
+          (add-to-list 'whaler--project-directories el)))))
 
 (defun whaler--add-oneoff-directories ()
   "Append the oneoff directories directly to the projects list."
-  (mapcar (lambda (x) (add-to-list 'whaler--project-directories x)) whaler-oneoff-directories-alist))
+  (mapcar (lambda (x)
+            (unless (null (whaler--directory-exists x))
+              (add-to-list 'whaler--project-directories x)))
+          whaler-oneoff-directories-alist))
 
 (defun whaler-populate-projects-directories ()
   "Populate the projects list `whaler--project-directories' and delete duplicates."
