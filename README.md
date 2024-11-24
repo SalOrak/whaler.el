@@ -7,7 +7,7 @@
 
 **Whaler** acts as a `completing-read` function extension to move ~blazingly~ fast between directories as well as have a minimalistic sense of working directory whilst providing an easy to use API to work with directories.
 
-![whaler-example](doc/whalerel.gif)
+![whaler-example](doc/whalerel.gif?)
 
 ## Why use Whaler instead of X?
 
