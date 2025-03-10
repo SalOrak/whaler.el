@@ -195,16 +195,15 @@ The hash table contains the ALIAS as KEY and PATH as VALUE"
   (message "[Whaler] Projects have been repopulated."))
 
 (defun whaler--window-management ()
-  "Manages window when using `whaler' or `whaler-execute-function-on-current-working-directory'.
-
-The universal argument. Can be t or nil.
+  "Manages window when using `whaler'.
+It also works on `whaler-execute-function-on-current-working-directory'.
+The universal argument.  Can be t or nil.
 If the universal argument is nil use the current window.
 Else:
    - if there is only one window splitted,
-   - otherwise select other window.
-"
+   - otherwise select other window."
   (interactive)
-  (unless (null current-prefix-arg)
+  (when (not (null current-prefix-arg))
     (when (length= (window-list) 1) (split-window))
     (other-window 1)
     )
