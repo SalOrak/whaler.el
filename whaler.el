@@ -117,21 +117,7 @@ Fallbacks to the $HOME directory if neither is a valid path."
    ((f-dir-p (getenv "HOME"))
     (getenv "HOME"))))
 
-(cl-defun whaler-execute-function-on-current-working-directory (action &optional (action-arg t))
-  "Generic function to execute in the current working directory.
 
-The ACTION parameter represent the function to execute.
-
-The ACTION-ARG parameter determines whether the current working directory
-should be passed as an argument to the ACTION function.
-By default is t.
-
-It accepts a string parameter, specifically the current whaler directory."
-  (interactive)
-  (let ((default-directory (whaler-current-working-directory)))
-    (if (null action-arg)
-	    (funcall action)
-	  (funcall action default-directory))))
 
 
 (defun whaler--directory-exists (dir)
@@ -208,6 +194,38 @@ The hash table contains the ALIAS as KEY and PATH as VALUE"
   (whaler--update-hash-table)
   (message "[Whaler] Projects have been repopulated."))
 
+(defun whaler--window-management ()
+  "Manages window when using `whaler' or `whaler-execute-function-on-current-working-directory'.
+
+The universal argument. Can be t or nil.
+If the universal argument is nil use the current window.
+Else:
+   - if there is only one window splitted,
+   - otherwise select other window.
+"
+  (interactive)
+  (unless (null current-prefix-arg)
+    (when (length= (window-list) 1) (split-window))
+    (other-window 1)
+    )
+  )
+
+(cl-defun whaler-execute-function-on-current-working-directory (action &optional (action-arg t))
+  "Generic function to execute in the current working directory.
+
+The ACTION parameter represent the function to execute.
+
+The ACTION-ARG parameter determines whether the current working directory
+should be passed as an argument to the ACTION function.
+By default is t.
+
+It accepts a string parameter, specifically the current whaler directory."
+  (interactive)
+  (let ((default-directory (whaler-current-working-directory)))
+    (whaler--window-management)
+    (if (null action-arg)
+	    (funcall action)
+	  (funcall action default-directory))))
 
 (cl-defun whaler ( &key (action 'dired) (action-arg t)(change-cwd-auto t))
   "Change or move between directories blazingly fast.
@@ -229,6 +247,7 @@ set the selected candidate as its current working directory or not.  Default t"
     (setq chosen-directory (gethash chosen-key whaler--hash-project-aliases))
     (when change-cwd-auto (setq whaler-current-working-directory (f-slash chosen-directory)))
     (let ((default-directory chosen-directory))
+      (whaler--window-management)
       (if (null action-arg)
 	      (funcall action)
 	    (funcall action chosen-directory)))))
